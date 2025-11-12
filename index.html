@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Horário Oficial de Brasília</title>
+
+        <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start; /* Mantém o conteúdo no topo */
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 50px;
+            background-color: #f7f7f7; /* Fundo geral claro */
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center; /* Centraliza todo o texto e elementos */
+            width: 90%; /* Aumentei a largura para dar mais espaço ao relógio */
+            max-width: 1200px; /* Largura máxima para a área de conteúdo */
+        }
+
+        /* Estilo do Título Principal */
+        h1 {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        /* Estilo do Subtítulo */
+        .subtitulo {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 0;
+            margin-bottom: 40px;
+        }
+
+        /* Estilo da Data */
+        .data-style {
+            font-size: 1.5rem;
+            font-weight: normal;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo do Relógio (Área Cinza Grande e BEM MAIOR) */
+        #relogio {
+            font-size: 18rem; /* DEIXANDO O RELÓGIO GIGANTE! */
+            font-weight: bold;
+            color: #000;
+            background-color: #ededed;
+            padding: 30px 20px;
+            border-radius: 5px;
+            letter-spacing: -2px; 
+            line-height: 1;
+        }
+
+        /* Ajuste para telas menores (Responsividade) */
+        @media (max-width: 1200px) {
+            #relogio {
+                font-size: 12rem; /* Reduz para telas de notebook menores */
+            }
+        }
+        @media (max-width: 768px) {
+            #relogio {
+                font-size: 8rem; /* Reduz para tablets e celulares */
+            }
+            h1 {
+                font-size: 2rem;
+            }
+        }
+        @media (max-width: 480px) {
+            #relogio {
+                font-size: 5rem; /* Reduz ainda mais para celulares pequenos */
+            }
+            .data-style {
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+    </head>
+<body>
+
+    <div class="container">
+        <h1>Horário de Brasília</h1>
+        <p class="subtitulo">Feito por Pedro Campos Queiroz</p>
+
+        <p id="data-hoje" class="data-style">Carregando Data...</p>
+
+        <div id="relogio" class="relogio-container">--:--:--</div>
+    </div>
+
+    <script>
+        // Função principal que atualiza tanto o horário quanto a data
+        function atualizarRelogioEData() {
+            // Cria um novo objeto Date para obter a hora atual
+            const agora = new Date();
+
+            // --- LÓGICA DO HORÁRIO (Com fuso forçado 'America/Sao_Paulo') ---
+            const opcoesHorario = {
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false,
+                timeZone: 'America/Sao_Paulo' 
+            };
+            
+            // Formata o horário (Ex: 12:57:15)
+            const horarioFormatado = agora.toLocaleTimeString('pt-BR', opcoesHorario);
+            document.getElementById('relogio').textContent = horarioFormatado;
+
+            // --- LÓGICA DA DATA (Com fuso forçado 'America/Sao_Paulo') ---
+            const opcoesData = {
+                weekday: 'long',  // Dia da semana por extenso (Ex: Quarta-feira)
+                day: '2-digit',   // Dia do mês (Ex: 12)
+                month: 'long',    // Mês por extenso (Ex: novembro)
+                year: 'numeric',  // Ano (Ex: 2025)
+                timeZone: 'America/Sao_Paulo' // Fuso de Brasília para a data
+            };
+
+            // Formata a data por extenso (Ex: Quarta-feira, 12 de novembro de 2025)
+            // A formatação do toLocaleDateString já garante o formato correto (Ex: segunda-feira, 10 de maio de 2024)
+            const dataFormatada = agora.toLocaleDateString('pt-BR', opcoesData);
+
+            // Insere a data no elemento
+            document.getElementById('data-hoje').textContent = dataFormatada;
+        }
+
+        // 1. Define que a função deve ser executada a cada 1000 milissegundos (1 segundo)
+        setInterval(atualizarRelogioEData, 1000);
+
+        // 2. Executa a função uma vez imediatamente para que apareça sem atraso
+        atualizarRelogioEData(); 
+    </script>
+    </body>
+</html>
