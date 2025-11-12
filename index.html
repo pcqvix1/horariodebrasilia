@@ -58,7 +58,14 @@
             letter-spacing: -2px; 
             line-height: 1;
         }
+/* Estilo da Mensagem de Incentivo */
+.mensagem-incentivo {
+    font-size: 1.8rem; /* Tamanho bom para ser lido de longe */
+    font-weight: bold;
+    color: #000000; /* Uma cor azul amigável para dar destaque */
+    margin-top: 40px; /* Espaço para separar bem do relógio */
 
+}
         /* Ajuste para telas menores (Responsividade) */
         @media (max-width: 1200px) {
             #relogio {
@@ -92,6 +99,8 @@
         <p id="data-hoje" class="data-style">Carregando Data...</p>
 
         <div id="relogio" class="relogio-container">--:--:--</div>
+        
+        <p class="mensagem-incentivo">Sem pressão! Boa prova para todos os alunos do SESI</p>
     </div>
 
     <script>
