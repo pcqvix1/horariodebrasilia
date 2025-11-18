@@ -6,158 +6,168 @@
     <title>Horário Oficial de Brasília</title>
     <link rel="icon" type="image/png" href="https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
     <style>
-        /* Estilos Globais e do Corpo */
-        body {
-            display: flex;
-            justify-content: center;
-            align-items: center; /* Centraliza verticalmente e horizontalmente */
-            min-height: 100vh;
-            margin: 0;
-            background-color: #f7f7f7;
-            font-family: Arial, sans-serif;
-            padding: 20px;
-        }
+    /* Estilos Globais e do Corpo (CORREÇÃO DA BARRA DE ROLAGEM E CENTRALIZAÇÃO) */
+    body {
+        display: flex;
+        justify-content: center; /* Centraliza Horizontalmente */
+        align-items: center; /* Centraliza Verticalmente */
+        min-height: 100vh;
+        margin: 0;
+        background-color: #f7f7f7;
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        /* ⭐️ CORREÇÃO PRINCIPAL: Impede a barra de rolagem horizontal ⭐️ */
+        overflow-x: hidden; 
+    }
 
-        .container {
-            text-align: center;
-            width: 90%;
-            max-width: 1200px;
-        }
+    .container {
+        text-align: center;
+        width: 100%; /* Ajustei para 100% */
+        max-width: 1200px;
+    }
 
-        /* Estilo para as duas telas principais (visibilidade controlada por JS) */
-        #tela-selecao, #tela-relogio {
-            display: flex; /* Garante que o conteúdo interno seja tratado flexivelmente */
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            height: 100%;
-        }
+    /* Estilo para as duas telas principais */
+    #tela-selecao, #tela-relogio {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        max-width: 500px; /* Limita a largura da tela de seleção para centralizar melhor */
+    }
 
-        /* CONFIGURAÇÕES DA TELA DE SELEÇÃO INICIAL */
+    /* CONFIGURAÇÕES DA TELA DE SELEÇÃO INICIAL */
+    #tela-selecao {
+        padding: 40px; /* Reduzi o padding um pouco */
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        width: calc(100% - 80px); /* Garante que a largura se ajuste ao padding e não quebre */
+        box-sizing: border-box; /* Garante que padding não estoure a largura total */
+    }
+    #tela-selecao h2 {
+        font-size: 2rem;
+        color: #333;
+        margin-bottom: 20px;
+    }
+    #selecao-materia-inicial {
+        font-size: 1.5rem;
+        padding: 15px 25px;
+        margin-bottom: 30px;
+        border: 2px solid #0056b3;
+        border-radius: 8px;
+        cursor: pointer;
+        text-align: center;
+        width: 100%; /* Faz o select ocupar a largura máxima disponível */
+        box-sizing: border-box;
+    }
+    #botao-entrar {
+        font-size: 1.5rem;
+        padding: 15px 30px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+        width: 100%; /* Faz o botão ocupar a largura máxima disponível */
+        box-sizing: border-box;
+    }
+    #botao-entrar:hover {
+        background-color: #0056b3;
+    }
+    #aviso-selecao {
+        color: red;
+        margin-top: 10px;
+        font-weight: bold;
+        height: 20px;
+    }
+    /* FIM DA TELA DE SELEÇÃO */
+
+    /* CONFIGURAÇÕES DA TELA DO RELÓGIO (final) */
+    #tela-relogio {
+        display: none;
+        padding-top: 0;
+    }
+
+    /* Estilo do Título Principal */
+    h1 {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 5px;
+        margin-top: 0;
+    }
+
+    /* Estilo do Subtítulo */
+    .subtitulo {
+        font-size: 1rem;
+        color: #666;
+        margin-top: 0;
+        margin-bottom: 20px;
+    }
+
+    /* Estilo da DATA (2.5rem - Moderado) */
+    .data-style {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: #000;
+        margin-bottom: 40px;
+        line-height: 1.1;
+    }
+
+    /* Estilo do Relógio (Área Cinza Grande) */
+    #relogio {
+        font-size: 18rem;
+        font-weight: bold;
+        color: #000;
+        background-color: #ededed;
+        padding: 30px 20px;
+        border-radius: 5px;
+        letter-spacing: -2px;
+        line-height: 1;
+    }
+
+    /* Estilo da Mensagem de Incentivo 1 (Fixa) */
+    .mensagem-incentivo-fixa {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #000000;
+        margin-top: 40px;
+        margin-bottom: 10px;
+    }
+
+    /* Estilo da Mensagem de Incentivo 2 (Dinâmica) */
+    #mensagem-dinamica-final {
+        font-size: 1.5rem;
+        font-style: italic;
+        color: #0056b3;
+        min-height: 20px;
+    }
+
+    /* Responsividade */
+    @media (max-width: 1200px) {
+        #relogio { font-size: 12rem; }
+        .data-style { font-size: 2rem; }
+        h1 { font-size: 2rem; }
+    }
+    @media (max-width: 768px) {
+        #relogio { font-size: 8rem; }
+        h1 { font-size: 1.8rem; }
+        .data-style { font-size: 1.8rem; }
+        .mensagem-incentivo-fixa { font-size: 1.5rem; }
+        /* Ajustes na tela de seleção para mobile */
         #tela-selecao {
-            /* Fica visível por padrão, será escondida pelo JS */
-            padding: 50px;
-            background-color: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            width: calc(100% - 40px);
         }
-        #tela-selecao h2 {
-            font-size: 2rem;
-            color: #333;
-            margin-bottom: 20px;
-        }
-        #selecao-materia-inicial {
-            font-size: 1.5rem;
-            padding: 15px 25px;
-            margin-bottom: 30px;
-            border: 2px solid #000000;
-            border-radius: 8px;
-            cursor: pointer;
-            text-align: center;
-        }
-        #botao-entrar {
-            font-size: 1.5rem;
-            padding: 15px 30px;
-            background-color: #000000;
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        #botao-entrar:hover {
-            background-color: #000000;
-        }
-        #aviso-selecao {
-            color: red;
-            margin-top: 10px;
-            font-weight: bold;
-            height: 20px; /* Garante que o layout não pule */
-        }
-        /* FIM DA TELA DE SELEÇÃO */
-
-        /* CONFIGURAÇÕES DA TELA DO RELÓGIO (final) */
-        #tela-relogio {
-            display: none; /* ESCONDIDO por padrão, será mostrado pelo JS */
-            padding-top: 0; /* Remove padding-top do body, usa margens internas */
-        }
-
-        /* Estilo do Título Principal */
-        h1 {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #333;
-            margin-bottom: 5px;
-            margin-top: 0;
-        }
-
-        /* Estilo do Subtítulo */
-        .subtitulo {
-            font-size: 1rem;
-            color: #666;
-            margin-top: 0;
-            margin-bottom: 20px;
-        }
-
-        /* Estilo da DATA (2.5rem - Moderado) */
-        .data-style {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #000;
-            margin-bottom: 40px;
-            line-height: 1.1;
-        }
-
-        /* Estilo do Relógio (Área Cinza Grande) */
-        #relogio {
-            font-size: 18rem;
-            font-weight: bold;
-            color: #000;
-            background-color: #ededed;
-            padding: 30px 20px;
-            border-radius: 5px;
-            letter-spacing: -2px;
-            line-height: 1;
-        }
-
-        /* Estilo da Mensagem de Incentivo 1 (Fixa) */
-        .mensagem-incentivo-fixa {
-            font-size: 1.8rem;
-            font-weight: bold;
-            color: #000000;
-            margin-top: 40px;
-            margin-bottom: 10px;
-        }
-
-        /* Estilo da Mensagem de Incentivo 2 (Dinâmica) */
-        #mensagem-dinamica-final {
-            font-size: 1.5rem;
-            font-style: italic;
-            color: #000000;
-            min-height: 20px;
-        }
-
-        /* Responsividade */
-        @media (max-width: 1200px) {
-            #relogio { font-size: 12rem; }
-            .data-style { font-size: 2rem; }
-            h1 { font-size: 2rem; }
-        }
-        @media (max-width: 768px) {
-            #relogio { font-size: 8rem; }
-            h1 { font-size: 1.8rem; }
-            .data-style { font-size: 1.8rem; }
-            .mensagem-incentivo-fixa { font-size: 1.5rem; }
-            #selecao-materia-inicial { font-size: 1.2rem; }
-            #botao-entrar { font-size: 1.2rem; }
-        }
-        @media (max-width: 480px) {
-            #relogio { font-size: 5rem; }
-            .data-style { font-size: 1.5rem; }
-            h1 { font-size: 1.5rem; }
-        }
-    </style>
+    }
+    @media (max-width: 480px) {
+        #relogio { font-size: 5rem; }
+        .data-style { font-size: 1.5rem; }
+        h1 { font-size: 1.5rem; }
+    }
+</style>
 </head>
 <body>
     <div class="container">
