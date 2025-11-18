@@ -5,188 +5,204 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horário Oficial de Brasília</title>
     <link rel="icon" type="image/png" href="https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
-<style>
-    /* Estilos Globais e do Corpo (Centralização e Overflow corrigidos) */
-    body {
-        display: flex;
-        justify-content: center; /* Centraliza Horizontalmente */
-        align-items: center; /* Centraliza Verticalmente */
-        min-height: 100vh;
-        margin: 0;
-        background-color: #f7f7f7;
-        font-family: Arial, sans-serif;
-        padding: 20px;
-        overflow-x: hidden; /* Mantido para impedir a barra de rolagem horizontal */
-    }
-
-    .container {
-        text-align: center;
-        width: 100%;
-        max-width: 1200px;
-    }
-
-    /* Estilo para as duas telas principais */
-    #tela-selecao, #tela-relogio {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-    }
-
-    /* CONFIGURAÇÕES DA TELA DE SELEÇÃO INICIAL (AJUSTADAS) */
-    #tela-selecao {
-        padding: 40px;
-        background-color: #fff;
-        border-radius: 10px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        
-        /* ⭐️ AJUSTES PRINCIPAIS: Aumenta a largura da caixa branca ⭐️ */
-        max-width: 450px; /* Aumentei o limite máximo da caixa branca */
-        width: 100%; /* Garante que ela ocupe toda a largura disponível até o max-width */
-        box-sizing: border-box; 
-    }
-    #tela-selecao h2 {
-        font-size: 2rem;
-        color: #333;
-        margin-bottom: 20px;
-        text-align: center; /* Garante que o texto dentro do h2 esteja centralizado */
-    }
-    #selecao-materia-inicial {
-        font-size: 1.5rem;
-        padding: 15px 25px;
-        margin-bottom: 30px;
-        border: 2px solid #000000;
-        border-radius: 8px;
-        cursor: pointer;
-        /* ⭐️ ESSENCIAL: Faz o select ocupar a largura da caixa branca ⭐️ */
-        width: 100%; 
-        box-sizing: border-box;
-    }
-    #botao-entrar {
-        font-size: 1.5rem;
-        padding: 15px 30px;
-        background-color: #000000;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-        /* ⭐️ ESSENCIAL: Faz o botão ocupar a largura da caixa branca ⭐️ */
-        width: 100%; 
-        box-sizing: border-box;
-    }
-    #botao-entrar:hover {
-        background-color: #000000;
-    }
-    #aviso-selecao {
-        color: red;
-        margin-top: 10px;
-        font-weight: bold;
-        height: 20px;
-    }
-    /* FIM DA TELA DE SELEÇÃO */
-
-    /* CONFIGURAÇÕES DA TELA DO RELÓGIO (final) */
-    #tela-relogio {
-        display: none;
-        padding-top: 0;
-        max-width: 1200px; /* Mantém a largura máxima do relógio */
-    }
-
-    /* Estilo do Título Principal */
-    h1 {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #333;
-        margin-bottom: 5px;
-        margin-top: 0;
-    }
-
-    /* Estilo do Subtítulo */
-    .subtitulo {
-        font-size: 1rem;
-        color: #666;
-        margin-top: 0;
-        margin-bottom: 20px;
-    }
-
-    /* Estilo da DATA (2.5rem - Moderado) */
-    .data-style {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #000;
-        margin-bottom: 40px;
-        line-height: 1.1;
-    }
-
-    /* Estilo do Relógio (Área Cinza Grande) */
-    #relogio {
-        font-size: 18rem;
-        font-weight: bold;
-        color: #000;
-        background-color: #ededed;
-        padding: 30px 20px;
-        border-radius: 5px;
-        letter-spacing: -2px;
-        line-height: 1;
-    }
-
-    /* Estilo da Mensagem de Incentivo 1 (Fixa) */
-    .mensagem-incentivo-fixa {
-        font-size: 1.8rem;
-        font-weight: bold;
-        color: #000000;
-        margin-top: 40px;
-        margin-bottom: 10px;
-    }
-
-    /* Estilo da Mensagem de Incentivo 2 (Dinâmica) */
-    #mensagem-dinamica-final {
-        font-size: 1.5rem;
-        font-style: italic;
-        color: #000000;
-        min-height: 20px;
-    }
-
-    /* Responsividade */
-    @media (max-width: 1200px) {
-        #relogio { font-size: 12rem; }
-        .data-style { font-size: 2rem; }
-        h1 { font-size: 2rem; }
-    }
-    @media (max-width: 768px) {
-        #relogio { font-size: 8rem; }
-        h1 { font-size: 1.8rem; }
-        .data-style { font-size: 1.8rem; }
-        .mensagem-incentivo-fixa { font-size: 1.5rem; }
-        /* Ajustes na tela de seleção para mobile */
-        #tela-selecao {
-            max-width: 90%; /* Permite que ocupe mais espaço em telas pequenas */
+    
+    <style>
+        /* Estilos Globais e do Corpo (Centralização e Overflow corrigidos) */
+        body {
+            display: flex;
+            justify-content: center; /* Centraliza Horizontalmente */
+            align-items: center; /* Centraliza Verticalmente */
+            min-height: 100vh;
+            margin: 0;
+            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
+            padding: 0; /* Removido padding do body para full-screen */
+            overflow-x: hidden; /* Impede a barra de rolagem horizontal */
         }
-    }
-    @media (max-width: 480px) {
-        #relogio { font-size: 5rem; }
-        .data-style { font-size: 1.5rem; }
-        h1 { font-size: 1.5rem; }
-    }
-</style>
+
+        .container {
+            text-align: center;
+            width: 100%;
+            max-width: 1200px;
+        }
+
+        /* ⭐️ CONFIGURAÇÕES DA TELA DE SELEÇÃO FULL-SCREEN ⭐️ */
+        #tela-selecao {
+            width: 100vw; /* 100% da largura do viewport */
+            height: 100vh; /* 100% da altura do viewport */
+            position: fixed; /* Fixa na tela */
+            top: 0;
+            left: 0;
+            z-index: 10; /* Garante que fique acima de tudo */
+
+            /* Centraliza o conteúdo (a caixa branca) no meio da tela cheia */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; 
+
+            background-color: #f7f7f7; /* Fundo idêntico ao body */
+            padding: 40px;
+            box-sizing: border-box;
+        }
+
+        /* Estilo da caixa branca interna da tela de seleção */
+        .selecao-caixa {
+            padding: 40px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 450px;
+            width: 90%;
+            text-align: center;
+        }
+        
+        #tela-selecao h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        #selecao-materia-inicial {
+            font-size: 1.5rem;
+            padding: 15px 25px;
+            margin-bottom: 30px;
+            border: 2px solid #000000;
+            border-radius: 8px;
+            cursor: pointer;
+            width: 100%; 
+            box-sizing: border-box;
+        }
+        #botao-entrar {
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%; 
+            box-sizing: border-box;
+        }
+        #botao-entrar:hover {
+            background-color: #000000;
+        }
+        #aviso-selecao {
+            color: red;
+            margin-top: 10px;
+            font-weight: bold;
+            height: 20px;
+        }
+        /* FIM DA TELA DE SELEÇÃO */
+
+        /* CONFIGURAÇÕES DA TELA DO RELÓGIO (final) */
+        #tela-relogio {
+            display: none; /* Escondida por padrão */
+            padding-top: 50px; /* Adiciona o padding que o body perdeu */
+            width: 100%;
+            max-width: 1200px;
+            /* Adicionamos display:flex e flex-direction: column para centralizar */
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Estilo do Título Principal */
+        h1 {
+            font-size: 2.5rem; /* Tamanho do título */
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+            margin-top: 0;
+        }
+
+        /* Estilo do Subtítulo */
+        .subtitulo {
+            font-size: 1rem;
+            color: #666;
+            margin-top: 0;
+            margin-bottom: 20px;
+        }
+
+        /* Estilo da DATA (Tamanho 2.5rem - Moderado) */
+        .data-style {
+            font-size: 2.5rem; /* A data ficou maior que o original de 1.5rem */
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 40px;
+            line-height: 1.1;
+        }
+
+        /* Estilo do Relógio (Área Cinza Grande) */
+        #relogio {
+            font-size: 18rem;
+            font-weight: bold;
+            color: #000;
+            background-color: #ededed;
+            padding: 30px 20px;
+            border-radius: 5px;
+            letter-spacing: -2px;
+            line-height: 1;
+        }
+
+        /* Estilo da Mensagem de Incentivo 1 (Fixa) */
+        .mensagem-incentivo-fixa {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #000000;
+            margin-top: 40px;
+            margin-bottom: 10px;
+        }
+
+        /* Estilo da Mensagem de Incentivo 2 (Dinâmica) */
+        #mensagem-dinamica-final {
+            font-size: 1.5rem;
+            font-style: italic;
+            color: #000000;
+            min-height: 20px;
+        }
+
+        /* Responsividade */
+        @media (max-width: 1200px) {
+            #relogio { font-size: 12rem; }
+            .data-style { font-size: 2rem; }
+            h1 { font-size: 2rem; }
+        }
+        @media (max-width: 768px) {
+            #relogio { font-size: 8rem; }
+            h1 { font-size: 1.8rem; }
+            .data-style { font-size: 1.8rem; }
+            .mensagem-incentivo-fixa { font-size: 1.5rem; }
+            .selecao-caixa {
+                max-width: 90%;
+                padding: 30px;
+            }
+        }
+        @media (max-width: 480px) {
+            #relogio { font-size: 5rem; }
+            .data-style { font-size: 1.5rem; }
+            h1 { font-size: 1.5rem; }
+        }
+    </style>
 </head>
 <body>
     <div class="container">
 
         <div id="tela-selecao">
-            <h2>Escolha a Matéria Foco da Sua Prova!</h2>
-            <select id="selecao-materia-inicial">
-                <option value="">-- Selecione uma Matéria --</option>
-                <option value="portugues">Português</option>
-                <option value="geografia">Geografia</option>
-                <option value="matematica">Matemática</option>
-                <option value="historia">História</option>
-                <option value="ciencias">Ciências</option>
-            </select>
-            <button id="botao-entrar" onclick="iniciarRelogio()">Entrar no Horário Oficial</button>
-            <p id="aviso-selecao"></p>
+            <div class="selecao-caixa"> 
+                <h2>Escolha a Matéria Foco da Sua Prova!</h2>
+                <select id="selecao-materia-inicial">
+                    <option value="">-- Selecione uma Matéria --</option>
+                    <option value="portugues">Português</option>
+                    <option value="geografia">Geografia</option>
+                    <option value="matematica">Matemática</option>
+                    <option value="historia">História</option>
+                    <option value="ciencias">Ciências</option>
+                </select>
+                <button id="botao-entrar" onclick="iniciarRelogio()">Entrar no Horário Oficial</button>
+                <p id="aviso-selecao"></p>
+            </div>
         </div>
         <div id="tela-relogio" class="container">
             <h1>Horário de Brasília</h1>
@@ -226,29 +242,27 @@
                 return; // Impede a continuação se a escolha for inválida
             }
 
-            // 3. Oculta a Tela de Seleção
+            // 3. Oculta a Tela de Seleção (FULL-SCREEN)
             document.getElementById('tela-selecao').style.display = 'none';
 
             // 4. Mostra a Tela do Relógio
             const telaRelogio = document.getElementById('tela-relogio');
-            telaRelogio.style.display = 'flex'; // Mudamos para 'flex' para manter a centralização
+            telaRelogio.style.display = 'flex'; // Exibe a tela principal
 
             // 5. Injeta a mensagem de incentivo no local final
             const mensagem = MENSAGENS_INCENTIVO[materiaEscolhida];
             document.getElementById('mensagem-dinamica-final').textContent = mensagem;
 
             // 6. Inicia o Relógio (Funções de atualização)
-            // Agora o setInterval só é chamado DEPOIS que a matéria é escolhida!
             setInterval(atualizarRelogioEData, 1000);
             atualizarRelogioEData(); 
         }
 
         // Função principal que atualiza tanto o horário quanto a data
         function atualizarRelogioEData() {
-            // ... (Lógica do Relógio e Data) ...
             const agora = new Date();
 
-            // --- LÓGICA DO HORÁRIO ---
+            // --- LÓGICA DO HORÁRIO (Com fuso forçado 'America/Sao_Paulo') ---
             const opcoesHorario = {
                 hour: '2-digit',
                 minute: '2-digit',
@@ -259,21 +273,17 @@
             const horarioFormatado = agora.toLocaleTimeString('pt-BR', opcoesHorario);
             document.getElementById('relogio').textContent = horarioFormatado;
 
-            // --- LÓGICA DA DATA ---
+            // --- LÓGICA DA DATA (Com fuso forçado 'America/Sao_Paulo') ---
             const opcoesData = {
-                weekday: 'long',  
-                day: '2-digit',   
-                month: 'long',    
-                year: 'numeric',  
+                weekday: 'long',  // Dia da semana por extenso
+                day: '2-digit',   // Dia do mês
+                month: 'long',    // Mês por extenso
+                year: 'numeric',  // Ano
                 timeZone: 'America/Sao_Paulo'
             };
             const dataFormatada = agora.toLocaleDateString('pt-BR', opcoesData);
             document.getElementById('data-hoje').textContent = dataFormatada;
         }
-
-        // NOTA: As funções de atualização do relógio (setInterval e a primeira chamada)
-        // foram movidas para DENTRO da função 'iniciarRelogio()' para garantir que
-        // o relógio só comece a funcionar após a seleção da matéria.
     </script>
 </body>
 </html>
