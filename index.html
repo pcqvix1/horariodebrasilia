@@ -5,8 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horário Oficial de Brasília</title>
     <link rel="icon" type="image/png" href="https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
-    <style>
-    /* Estilos Globais e do Corpo (CORREÇÃO DA BARRA DE ROLAGEM E CENTRALIZAÇÃO) */
+<style>
+    /* Estilos Globais e do Corpo (Centralização e Overflow corrigidos) */
     body {
         display: flex;
         justify-content: center; /* Centraliza Horizontalmente */
@@ -16,13 +16,12 @@
         background-color: #f7f7f7;
         font-family: Arial, sans-serif;
         padding: 20px;
-        /* ⭐️ CORREÇÃO PRINCIPAL: Impede a barra de rolagem horizontal ⭐️ */
-        overflow-x: hidden; 
+        overflow-x: hidden; /* Mantido para impedir a barra de rolagem horizontal */
     }
 
     .container {
         text-align: center;
-        width: 100%; /* Ajustei para 100% */
+        width: 100%;
         max-width: 1200px;
     }
 
@@ -33,48 +32,52 @@
         align-items: center;
         justify-content: center;
         width: 100%;
-        max-width: 500px; /* Limita a largura da tela de seleção para centralizar melhor */
     }
 
-    /* CONFIGURAÇÕES DA TELA DE SELEÇÃO INICIAL */
+    /* CONFIGURAÇÕES DA TELA DE SELEÇÃO INICIAL (AJUSTADAS) */
     #tela-selecao {
-        padding: 40px; /* Reduzi o padding um pouco */
+        padding: 40px;
         background-color: #fff;
         border-radius: 10px;
         box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-        width: calc(100% - 80px); /* Garante que a largura se ajuste ao padding e não quebre */
-        box-sizing: border-box; /* Garante que padding não estoure a largura total */
+        
+        /* ⭐️ AJUSTES PRINCIPAIS: Aumenta a largura da caixa branca ⭐️ */
+        max-width: 450px; /* Aumentei o limite máximo da caixa branca */
+        width: 100%; /* Garante que ela ocupe toda a largura disponível até o max-width */
+        box-sizing: border-box; 
     }
     #tela-selecao h2 {
         font-size: 2rem;
         color: #333;
         margin-bottom: 20px;
+        text-align: center; /* Garante que o texto dentro do h2 esteja centralizado */
     }
     #selecao-materia-inicial {
         font-size: 1.5rem;
         padding: 15px 25px;
         margin-bottom: 30px;
-        border: 2px solid #0056b3;
+        border: 2px solid #000000;
         border-radius: 8px;
         cursor: pointer;
-        text-align: center;
-        width: 100%; /* Faz o select ocupar a largura máxima disponível */
+        /* ⭐️ ESSENCIAL: Faz o select ocupar a largura da caixa branca ⭐️ */
+        width: 100%; 
         box-sizing: border-box;
     }
     #botao-entrar {
         font-size: 1.5rem;
         padding: 15px 30px;
-        background-color: #007bff;
+        background-color: #000000;
         color: white;
         border: none;
         border-radius: 8px;
         cursor: pointer;
         transition: background-color 0.3s;
-        width: 100%; /* Faz o botão ocupar a largura máxima disponível */
+        /* ⭐️ ESSENCIAL: Faz o botão ocupar a largura da caixa branca ⭐️ */
+        width: 100%; 
         box-sizing: border-box;
     }
     #botao-entrar:hover {
-        background-color: #0056b3;
+        background-color: #000000;
     }
     #aviso-selecao {
         color: red;
@@ -88,6 +91,7 @@
     #tela-relogio {
         display: none;
         padding-top: 0;
+        max-width: 1200px; /* Mantém a largura máxima do relógio */
     }
 
     /* Estilo do Título Principal */
@@ -141,7 +145,7 @@
     #mensagem-dinamica-final {
         font-size: 1.5rem;
         font-style: italic;
-        color: #0056b3;
+        color: #000000;
         min-height: 20px;
     }
 
@@ -158,8 +162,7 @@
         .mensagem-incentivo-fixa { font-size: 1.5rem; }
         /* Ajustes na tela de seleção para mobile */
         #tela-selecao {
-            padding: 20px;
-            width: calc(100% - 40px);
+            max-width: 90%; /* Permite que ocupe mais espaço em telas pequenas */
         }
     }
     @media (max-width: 480px) {
