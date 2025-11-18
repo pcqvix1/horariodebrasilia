@@ -5,23 +5,82 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Horário Oficial de Brasília</title>
     <link rel="icon" type="image/png" href="https://images.unsplash.com/photo-1563861826100-9cb868fdbe1c?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D">
-
-        <style>
+    <style>
+        /* Estilos Globais e do Corpo */
         body {
             display: flex;
             justify-content: center;
-            align-items: flex-start; /* Mantém o conteúdo no topo */
+            align-items: center; /* Centraliza verticalmente e horizontalmente */
             min-height: 100vh;
             margin: 0;
-            padding-top: 50px;
-            background-color: #f7f7f7; /* Fundo geral claro */
+            background-color: #f7f7f7;
             font-family: Arial, sans-serif;
+            padding: 20px;
         }
 
         .container {
-            text-align: center; /* Centraliza todo o texto e elementos */
-            width: 90%; /* Aumentei a largura para dar mais espaço ao relógio */
-            max-width: 1200px; /* Largura máxima para a área de conteúdo */
+            text-align: center;
+            width: 90%;
+            max-width: 1200px;
+        }
+
+        /* Estilo para as duas telas principais (visibilidade controlada por JS) */
+        #tela-selecao, #tela-relogio {
+            display: flex; /* Garante que o conteúdo interno seja tratado flexivelmente */
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* CONFIGURAÇÕES DA TELA DE SELEÇÃO INICIAL */
+        #tela-selecao {
+            /* Fica visível por padrão, será escondida pelo JS */
+            padding: 50px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+        #tela-selecao h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        #selecao-materia-inicial {
+            font-size: 1.5rem;
+            padding: 15px 25px;
+            margin-bottom: 30px;
+            border: 2px solid #000000;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: center;
+        }
+        #botao-entrar {
+            font-size: 1.5rem;
+            padding: 15px 30px;
+            background-color: #000000;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #botao-entrar:hover {
+            background-color: #000000;
+        }
+        #aviso-selecao {
+            color: red;
+            margin-top: 10px;
+            font-weight: bold;
+            height: 20px; /* Garante que o layout não pule */
+        }
+        /* FIM DA TELA DE SELEÇÃO */
+
+        /* CONFIGURAÇÕES DA TELA DO RELÓGIO (final) */
+        #tela-relogio {
+            display: none; /* ESCONDIDO por padrão, será mostrado pelo JS */
+            padding-top: 0; /* Remove padding-top do body, usa margens internas */
         }
 
         /* Estilo do Título Principal */
@@ -30,6 +89,7 @@
             font-weight: bold;
             color: #333;
             margin-bottom: 5px;
+            margin-top: 0;
         }
 
         /* Estilo do Subtítulo */
@@ -37,114 +97,170 @@
             font-size: 1rem;
             color: #666;
             margin-top: 0;
-            margin-bottom: 40px;
-        }
-
-        /* Estilo da Data */
-        .data-style {
-            font-size: 1.5rem;
-            font-weight: normal;
-            color: #333;
             margin-bottom: 20px;
         }
 
-        /* Estilo do Relógio (Área Cinza Grande e BEM MAIOR) */
+        /* Estilo da DATA (2.5rem - Moderado) */
+        .data-style {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #000;
+            margin-bottom: 40px;
+            line-height: 1.1;
+        }
+
+        /* Estilo do Relógio (Área Cinza Grande) */
         #relogio {
-            font-size: 18rem; /* DEIXANDO O RELÓGIO GIGANTE! */
+            font-size: 18rem;
             font-weight: bold;
             color: #000;
             background-color: #ededed;
             padding: 30px 20px;
             border-radius: 5px;
-            letter-spacing: -2px; 
+            letter-spacing: -2px;
             line-height: 1;
         }
-/* Estilo da Mensagem de Incentivo */
-.mensagem-incentivo {
-    font-size: 1.8rem; /* Tamanho bom para ser lido de longe */
-    font-weight: bold;
-    color: #000000; /* Uma cor azul amigável para dar destaque */
-    margin-top: 40px; /* Espaço para separar bem do relógio */
 
-}
-        /* Ajuste para telas menores (Responsividade) */
+        /* Estilo da Mensagem de Incentivo 1 (Fixa) */
+        .mensagem-incentivo-fixa {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #000000;
+            margin-top: 40px;
+            margin-bottom: 10px;
+        }
+
+        /* Estilo da Mensagem de Incentivo 2 (Dinâmica) */
+        #mensagem-dinamica-final {
+            font-size: 1.5rem;
+            font-style: italic;
+            color: #000000;
+            min-height: 20px;
+        }
+
+        /* Responsividade */
         @media (max-width: 1200px) {
-            #relogio {
-                font-size: 12rem; /* Reduz para telas de notebook menores */
-            }
+            #relogio { font-size: 12rem; }
+            .data-style { font-size: 2rem; }
+            h1 { font-size: 2rem; }
         }
         @media (max-width: 768px) {
-            #relogio {
-                font-size: 8rem; /* Reduz para tablets e celulares */
-            }
-            h1 {
-                font-size: 2rem;
-            }
+            #relogio { font-size: 8rem; }
+            h1 { font-size: 1.8rem; }
+            .data-style { font-size: 1.8rem; }
+            .mensagem-incentivo-fixa { font-size: 1.5rem; }
+            #selecao-materia-inicial { font-size: 1.2rem; }
+            #botao-entrar { font-size: 1.2rem; }
         }
         @media (max-width: 480px) {
-            #relogio {
-                font-size: 5rem; /* Reduz ainda mais para celulares pequenos */
-            }
-            .data-style {
-                font-size: 1.2rem;
-            }
+            #relogio { font-size: 5rem; }
+            .data-style { font-size: 1.5rem; }
+            h1 { font-size: 1.5rem; }
         }
     </style>
-    </head>
+</head>
 <body>
-
     <div class="container">
-        <h1>Horário de Brasília</h1>
-        <p class="subtitulo">Feito por Pedro Campos Queiroz</p>
 
-        <p id="data-hoje" class="data-style">Carregando Data...</p>
+        <div id="tela-selecao">
+            <h2>Escolha a Matéria Foco da Sua Prova!</h2>
+            <select id="selecao-materia-inicial">
+                <option value="">-- Selecione uma Matéria --</option>
+                <option value="portugues">Português</option>
+                <option value="geografia">Geografia</option>
+                <option value="matematica">Matemática</option>
+                <option value="historia">História</option>
+                <option value="ciencias">Ciências</option>
+            </select>
+            <button id="botao-entrar" onclick="iniciarRelogio()">Entrar no Horário Oficial</button>
+            <p id="aviso-selecao"></p>
+        </div>
+        <div id="tela-relogio" class="container">
+            <h1>Horário de Brasília</h1>
+            <p class="subtitulo">Feito por Pedro Campos Queiroz</p>
+            <p id="data-hoje" class="data-style">Carregando Data...</p>
 
-        <div id="relogio" class="relogio-container">--:--:--</div>
-        
-        <p class="mensagem-incentivo">Sem pressa! Boa prova para todos os alunos do SESI</p>
-    </div>
+            <div id="relogio" class="relogio-container">--:--:--</div>
+
+            <p class="mensagem-incentivo-fixa">Sem pressa! Boa prova para todos os alunos do SESI</p>
+            <p id="mensagem-dinamica-final" class="mensagem-incentivo-dinamica"></p>
+        </div>
+        </div>
 
     <script>
+        // Mapeamento das mensagens por matéria
+        const MENSAGENS_INCENTIVO = {
+            'portugues': 'A gramática é a bússola do pensamento. Mostre sua clareza nas palavras!',
+            'geografia': 'O mundo está nas suas mãos. Mapeie seu sucesso nesta prova!',
+            'matematica': 'Encontre a lógica. Cada desafio é um quebra-cabeça esperando ser resolvido!',
+            'historia': 'O passado inspira o futuro. Use o conhecimento de hoje para construir sua vitória!',
+            'ciencias': 'Explore o seu potencial! Use o método científico para alcançar o conhecimento.',
+        };
+        
+        // Variável global para armazenar a matéria escolhida
+        let materiaEscolhida = ''; 
+
+        // ⭐️ NOVA FUNÇÃO: FAZ A TRANSIÇÃO E INICIA O RELÓGIO ⭐️
+        function iniciarRelogio() {
+            // 1. Pega a matéria selecionada na tela inicial
+            const selectElement = document.getElementById('selecao-materia-inicial');
+            materiaEscolhida = selectElement.value;
+            const avisoElement = document.getElementById('aviso-selecao');
+
+            // 2. Verifica se uma matéria foi realmente escolhida
+            if (!materiaEscolhida) {
+                avisoElement.textContent = 'Por favor, selecione uma matéria para continuar.';
+                return; // Impede a continuação se a escolha for inválida
+            }
+
+            // 3. Oculta a Tela de Seleção
+            document.getElementById('tela-selecao').style.display = 'none';
+
+            // 4. Mostra a Tela do Relógio
+            const telaRelogio = document.getElementById('tela-relogio');
+            telaRelogio.style.display = 'flex'; // Mudamos para 'flex' para manter a centralização
+
+            // 5. Injeta a mensagem de incentivo no local final
+            const mensagem = MENSAGENS_INCENTIVO[materiaEscolhida];
+            document.getElementById('mensagem-dinamica-final').textContent = mensagem;
+
+            // 6. Inicia o Relógio (Funções de atualização)
+            // Agora o setInterval só é chamado DEPOIS que a matéria é escolhida!
+            setInterval(atualizarRelogioEData, 1000);
+            atualizarRelogioEData(); 
+        }
+
         // Função principal que atualiza tanto o horário quanto a data
         function atualizarRelogioEData() {
-            // Cria um novo objeto Date para obter a hora atual
+            // ... (Lógica do Relógio e Data) ...
             const agora = new Date();
 
-            // --- LÓGICA DO HORÁRIO (Com fuso forçado 'America/Sao_Paulo') ---
+            // --- LÓGICA DO HORÁRIO ---
             const opcoesHorario = {
                 hour: '2-digit',
                 minute: '2-digit',
                 second: '2-digit',
                 hour12: false,
-                timeZone: 'America/Sao_Paulo' 
+                timeZone: 'America/Sao_Paulo'
             };
-            
-            // Formata o horário (Ex: 12:57:15)
             const horarioFormatado = agora.toLocaleTimeString('pt-BR', opcoesHorario);
             document.getElementById('relogio').textContent = horarioFormatado;
 
-            // --- LÓGICA DA DATA (Com fuso forçado 'America/Sao_Paulo') ---
+            // --- LÓGICA DA DATA ---
             const opcoesData = {
-                weekday: 'long',  // Dia da semana por extenso (Ex: Quarta-feira)
-                day: '2-digit',   // Dia do mês (Ex: 12)
-                month: 'long',    // Mês por extenso (Ex: novembro)
-                year: 'numeric',  // Ano (Ex: 2025)
-                timeZone: 'America/Sao_Paulo' // Fuso de Brasília para a data
+                weekday: 'long',  
+                day: '2-digit',   
+                month: 'long',    
+                year: 'numeric',  
+                timeZone: 'America/Sao_Paulo'
             };
-
-            // Formata a data por extenso (Ex: Quarta-feira, 12 de novembro de 2025)
-            // A formatação do toLocaleDateString já garante o formato correto (Ex: segunda-feira, 10 de maio de 2024)
             const dataFormatada = agora.toLocaleDateString('pt-BR', opcoesData);
-
-            // Insere a data no elemento
             document.getElementById('data-hoje').textContent = dataFormatada;
         }
 
-        // 1. Define que a função deve ser executada a cada 1000 milissegundos (1 segundo)
-        setInterval(atualizarRelogioEData, 1000);
-
-        // 2. Executa a função uma vez imediatamente para que apareça sem atraso
-        atualizarRelogioEData(); 
+        // NOTA: As funções de atualização do relógio (setInterval e a primeira chamada)
+        // foram movidas para DENTRO da função 'iniciarRelogio()' para garantir que
+        // o relógio só comece a funcionar após a seleção da matéria.
     </script>
-    </body>
+</body>
 </html>
